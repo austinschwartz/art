@@ -1,0 +1,22 @@
+<section class="phx-hero">
+  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
+  <p>Peace of mind from prototype to production</p>
+</section>
+
+<section class="row">
+  <article class="column">
+    <ul>
+      <li>
+        <a href="/courses">Courses</a>
+      </li>
+      <li>
+        <a href="/subjects">Subjects</a>
+      </li>
+      <li>
+        <a href="/authors">Authors</a>
+      </li>
+    </ul>
+  </article>
+  <article class="column">
+  </article>
+</section>

@@ -1,0 +1,35 @@
+<h1>Show Course</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @course.name %>
+  </li>
+
+  <li>
+    <strong>Subjects:</strong>
+    <%= for subject <- @course.subjects do %>
+      <%= link subject.name, to: Routes.subject_path(@conn, :show, subject.id) %></span>
+    <% end %>
+  </li>
+
+  <li>
+    <strong>Start:</strong>
+    <%= @course.start %>
+  </li>
+
+  <li>
+    <strong>End:</strong>
+    <%= @course.end %>
+  </li>
+
+  <li>
+    <strong>Cost:</strong>
+    <%= @course.cost %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.course_path(@conn, :edit, @course) %></span>
+<span><%= link "Back", to: Routes.course_path(@conn, :index) %></span>

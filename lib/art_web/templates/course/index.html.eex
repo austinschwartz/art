@@ -1,0 +1,37 @@
+<h1>Listing Courses</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Subjects</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>Cost</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for course <- @courses do %>
+    <tr>
+      <td><%= course.name %></td>
+      <td><%= for subject <- course.subjects do %>
+        <%= link subject.name, to: Routes.subject_path(@conn, :show, subject.id) %></span>
+      <% end %>
+      </td>
+      <td><%= course.start %></td>
+      <td><%= course.end %></td>
+      <td><%= course.cost %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.course_path(@conn, :show, course) %></span>
+        <span><%= link "Edit", to: Routes.course_path(@conn, :edit, course) %></span>
+        <span><%= link "Delete", to: Routes.course_path(@conn, :delete, course), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Course", to: Routes.course_path(@conn, :new) %></span>

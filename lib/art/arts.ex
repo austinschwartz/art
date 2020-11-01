@@ -8,6 +8,9 @@ defmodule Art.Arts do
   alias Ecto.Multi
 
   alias Art.Arts.Subject
+  alias Art.Arts.Website
+  alias Art.Arts.Course
+  alias Art.Arts.Instructor
 
   @doc """
   Returns the list of subjects.
@@ -109,8 +112,6 @@ defmodule Art.Arts do
     Subject.changeset(subject, attrs)
   end
 
-  alias Art.Arts.Course
-
   @doc """
   Returns the list of courses.
 
@@ -164,25 +165,42 @@ defmodule Art.Arts do
   end
 
   def create_course(attrs \\ %{}) do
-    multi_result =
-      Multi.new()
-      # use multi to insert all the courses, so the subjects are rolled back when there
-      # is an error in course creation
-      |> ensure_subjects(attrs)
-      |> Multi.insert(:course, fn %{subjects: subjects} ->
+    IO.inspect attrs
+    multi = Multi.new()
 
-        # This chunk of code remains the same, the only difference is we let
-        # Ecto.Multi handle insertion of the course
+    # Insert website
+    multi = multi
+      |> Multi.insert(
+        :insert_website,
+        Website.changeset(%Website{},
+          %{"name" => attrs["website"]}),
+          on_conflict: :nothing
+        )
+      |> Multi.run(:website, fn repo, _changes ->
+        website_name = attrs["website"]
+        {:ok, repo.all(from w in Website, where: w.name == ^website_name)}
+      end)
+
+    # Insert subjects
+    multi = multi
+      |> ensure_subjects(attrs)
+
+    # insert courses
+    multi = multi
+      |> Multi.insert(:course, fn %{subjects: subjects, website: [website]} ->
+        IO.inspect "lol"
+        IO.inspect website
         %Course{}
         |> Course.changeset(attrs)
         |> Ecto.Changeset.put_assoc(:subjects, subjects)
+        |> Ecto.Changeset.put_assoc(:website, website)
       end)
-      # Finally, we run all of this in a single transaction
-      |> Repo.transaction()
 
-    # a multi result can be an :ok tagged tuple with the data from all steps
-    # or an error tagged tuple with the failure step's atom and relevant data
-    # in this case we only expect failures in Course insertion
+      IO.inspect "Multi: "
+      IO.inspect multi
+    # Finally, we run all of this in a single transaction
+    multi_result = Repo.transaction(multi)
+
     case multi_result do
       {:ok, %{course: course}} -> {:ok, course}
       {:error, :course, changeset, _} -> {:error, changeset}
@@ -248,8 +266,6 @@ defmodule Art.Arts do
   def change_course(%Course{} = course, attrs \\ %{}) do
     Course.changeset(course, attrs)
   end
-
-  alias Art.Arts.Website
 
   @doc """
   Returns the list of websites.
@@ -345,7 +361,6 @@ defmodule Art.Arts do
     Website.changeset(website, attrs)
   end
 
-  alias Art.Arts.Instructor
 
   @doc """
   Returns the list of instructors.
@@ -439,5 +454,13 @@ defmodule Art.Arts do
   """
   def change_instructor(%Instructor{} = instructor, attrs \\ %{}) do
     Instructor.changeset(instructor, attrs)
+  end
+
+  def delete_all() do
+    Repo.delete_all(Instructor)
+    Repo.delete_all(CourseSubject)
+    Repo.delete_all(Subject)
+    Repo.delete_all(Website)
+    Repo.delete_all(Course)
   end
 end

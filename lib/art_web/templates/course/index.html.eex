@@ -16,7 +16,7 @@
       <tr>
         <td><%= course.name %></td>
         <td><%= if course.website != nil do %>
-            <span class="website"><%= course.website.name %></span>
+            <span class="website"><%= link course.website.name, to: Routes.website_path(@conn, :show, course.website.id) %></span>
           <% else %>
             <!--N/A-->
           <% end %>
@@ -27,7 +27,11 @@
         </td>
         <td><%= course.start %></td>
         <td><%= course.end %></td>
-        <td><%= course.cost %></td>
+        <td>
+        <%= if course.cost do %>
+          $<%= course.cost %>
+        <% end %>
+        </td>
         <td>
           <span><%= link "Show", to: Routes.course_path(@conn, :show, course) %></span>
           <span><%= link "Edit", to: Routes.course_path(@conn, :edit, course) %></span>

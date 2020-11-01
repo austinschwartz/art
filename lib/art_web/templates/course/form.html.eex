@@ -9,9 +9,13 @@
   <%= text_input f, :name %>
   <%= error_tag f, :name %>
 
-  <%= label f, :website_id %>
+  <%= label f, :website %>
   <%= select f, :website_id, @websites, prompt: "N/A" %>
-  <%= error_tag f, :website_id %>
+  <%= error_tag f, :website %>
+
+  <%= label f, :instructor %>
+  <%= select f, :instructor_id, @instructors, prompt: "N/A" %>
+  <%= error_tag f, :instructor %>
 
   <!--<%= label f, :website_id %>
   <%= select f, :website_id, @websites, prompt: "N/A", class: "form-control" %>

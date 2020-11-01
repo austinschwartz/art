@@ -8,6 +8,5 @@ defmodule Art.Repo.Migrations.CreateWebsites do
       timestamps()
     end
     create unique_index(:websites, [:name])
-
   end
 end

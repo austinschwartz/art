@@ -25,24 +25,73 @@ end
 
 # Watts
 
-# Spring 2020
+# Fall 2020
 %{
   "cost" => 99,
   #"start" => ~D[2011-05-20],
   #"end" => ~D[2010-04-17],
-  "name" => "Head, Figure, Quicksketch",
-  "subjects" => "Figure, Portrait, Drawing",
-  "instructor" => "Jeff Watts",
-  "website" => "Watts"
+  "name" => "20m Head Lay-ins",
+  "website" => "Watts",
+  "subjects" => "Portrait, Drawing",
+  "instructor" => "Ben M. Young"
 } |> Art.Arts.create_course()
 
 %{
   "cost" => 99,
   #"start" => ~D[2011-05-20],
   #"end" => ~D[2010-04-17],
+  "name" => "Perspective Fundamentals",
+  "website" => "Watts",
+  "subjects" => "Perspective, Drawing",
+  "instructor" => "Brian Knox"
+} |> Art.Arts.create_course()
+
+%{
+  "cost" => 99,
+  #"start" => ~D[2011-05-20],
+  #"end" => ~D[2010-04-17],
+  "name" => "Anatomy Intensives: Torso",
+  "website" => "Watts",
+  "subjects" => "Anatomy, Drawing, Figure",
+  "instructor" => "Erik M. Gist"
+} |> Art.Arts.create_course()
+
+%{
+  "cost" => 99,
+  #"start" => ~D[2011-05-20],
+  #"end" => ~D[2010-04-17],
+  "name" => "Sketchbooking Techniques & Subjects",
+  "website" => "Watts",
+  "subjects" => "Sketching",
+  "instructor" => "Jeffrey R. Watts"
+} |> Art.Arts.create_course()
+
+%{
+  "cost" => 99,
+  #"start" => ~D[2011-05-20],
+  #"end" => ~D[2010-04-17],
+  "name" => "20 Minute Figure Lay-ins",
+  "website" => "Watts",
+  "subjects" => "Figure, Drawing",
+  "instructor" => "Erik M. Gist"
+} |> Art.Arts.create_course()
+
+
+
+
+
+
+
+
+
+# Spring 2020
+%{
+  "cost" => 99,
+  #"start" => ~D[2011-05-20],
+  #"end" => ~D[2010-04-17],
   "name" => "Bridgemans Anatomy",
   "subjects" => "Figure, Drawing",
-  "instructor" => "Erik Gist",
+  "instructor" => "Erik M. Gist",
   "website" => "Watts"
 } |> Art.Arts.create_course()
 
@@ -50,7 +99,7 @@ end
 # Class101
 
 %{
-  "cost" => 99,
+  "cost" => 135,
   #"start" => ~D[2011-05-20],
   #"end" => ~D[2010-04-17],
   "name" => "Sketching Animals and Creatures with Pen and Ink",

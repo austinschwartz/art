@@ -125,6 +125,7 @@ defmodule Art.Arts do
     Course
       |> Ecto.Query.preload(:subjects)
       |> Ecto.Query.preload(:website)
+      |> Ecto.Query.preload(:instructor)
       |> Repo.all
     #Repo.all(Course)
   end
@@ -147,6 +148,7 @@ defmodule Art.Arts do
     Course
       |> Ecto.Query.preload(:subjects)
       |> Ecto.Query.preload(:website)
+      |> Ecto.Query.preload(:instructor)
       |> Repo.get!(id)
     #Repo.get!(Course, id)
   end
@@ -164,43 +166,83 @@ defmodule Art.Arts do
         do: %{name: subject, inserted_at: now, updated_at: now}
   end
 
-  def create_course(attrs \\ %{}) do
-    IO.inspect attrs
-    multi = Multi.new()
-
-    # Insert website
-    multi = multi
-      |> Multi.insert(
+  def maybe_insert_website(multi, nil), do: multi
+  def maybe_insert_website(multi, %{"website" => website}) do
+    multi
+    |> Multi.insert(
         :insert_website,
         Website.changeset(%Website{},
-          %{"name" => attrs["website"]}),
+          %{"name" => website}),
           on_conflict: :nothing
         )
       |> Multi.run(:website, fn repo, _changes ->
-        website_name = attrs["website"]
+        website_name = website
         {:ok, repo.all(from w in Website, where: w.name == ^website_name)}
       end)
+  end
+
+  def put_assoc_if_website(course, nil), do: course
+  def put_assoc_if_website(course, %{website: [website]}) do
+    course |> Ecto.Changeset.put_assoc(:website, website)
+  end
+
+  def maybe_insert_instructor(multi, nil), do: multi
+  def maybe_insert_instructor(multi, %{"instructor" => instructor}) do
+    multi
+    |> Multi.insert(
+        :insert_instructor,
+        Website.changeset(%Instructor{},
+          %{"name" => instructor}),
+          on_conflict: :nothing
+        )
+      |> Multi.run(:instructor, fn repo, _changes ->
+        instructor_name = instructor
+        {:ok, repo.all(from i in Instructor, where: i.name == ^instructor_name)}
+      end)
+  end
+
+  def put_assoc_if_instructor(course, nil), do: course
+  def put_assoc_if_instructor(course, %{instructor: [instructor]}) do
+    course |> Ecto.Changeset.put_assoc(:instructor, instructor)
+  end
+
+  def create_course(attrs \\ %{}) do
+    multi = Multi.new()
+      |> maybe_insert_website(attrs)
+      |> maybe_insert_instructor(attrs)
+      |> ensure_subjects(attrs)
+      |> Multi.insert(:course, fn m ->
+        %Course{}
+          |> Course.changeset(attrs)
+          |> Ecto.Changeset.put_assoc(:subjects, m[:subjects])
+          |> put_assoc_if_website(m)
+          |> put_assoc_if_instructor(m)
+      end)
+    # Finally, we run all of this in a single transaction
+    multi_result = Repo.transaction(multi)
+    case multi_result do
+      {:ok, %{course: course}} -> {:ok, course}
+      {:error, :course, changeset, _} -> {:error, changeset}
+      x -> x
+    end
+  end
+
+  def create_course_old(attrs \\ %{}) do
+    multi = Multi.new()
 
     # Insert subjects
     multi = multi
       |> ensure_subjects(attrs)
 
-    # insert courses
+    # Insert courses
     multi = multi
-      |> Multi.insert(:course, fn %{subjects: subjects, website: [website]} ->
-        IO.inspect "lol"
-        IO.inspect website
+      |> Multi.insert(:course, fn %{subjects: subjects} ->
         %Course{}
-        |> Course.changeset(attrs)
-        |> Ecto.Changeset.put_assoc(:subjects, subjects)
-        |> Ecto.Changeset.put_assoc(:website, website)
+          |> Course.changeset(attrs)
+          |> Ecto.Changeset.put_assoc(:subjects, subjects)
       end)
-
-      IO.inspect "Multi: "
-      IO.inspect multi
     # Finally, we run all of this in a single transaction
     multi_result = Repo.transaction(multi)
-
     case multi_result do
       {:ok, %{course: course}} -> {:ok, course}
       {:error, :course, changeset, _} -> {:error, changeset}

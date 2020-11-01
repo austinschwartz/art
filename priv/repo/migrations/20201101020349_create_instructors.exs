@@ -7,6 +7,7 @@ defmodule Art.Repo.Migrations.CreateInstructors do
 
       timestamps()
     end
+    create unique_index(:instructors, [:name])
     alter table("courses") do
       add :instructor_id, references(:instructors, on_delete: :nothing)
     end

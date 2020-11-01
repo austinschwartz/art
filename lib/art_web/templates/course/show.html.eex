@@ -17,12 +17,21 @@
   </li>
 
   <li>
+    <strong>Instructor:</strong>
+    <%= if @course.instructor != nil do %>
+      <span class="instructor"><%= link @course.instructor.name, to: Routes.instructor_path(@conn, :show, @course.instructor.id) %></span>
+    <% else %>
+      N/A
+    <% end %>
+  </li>
+
+  <li>
     <strong>Subjects:</strong>
     <%= for subject <- @course.subjects do %>
       <span class="subject"><%= link subject.name, to: Routes.subject_path(@conn, :show, subject.id) %></span>
     <% end %>
   </li>
-
+<!--
   <li>
     <strong>Start:</strong>
     <%= @course.start %>
@@ -32,6 +41,7 @@
     <strong>End:</strong>
     <%= @course.end %>
   </li>
+  -->
 
   <li>
     <strong>Cost:</strong>

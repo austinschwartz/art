@@ -12,10 +12,16 @@ defmodule ArtWeb.CourseController do
   def new(conn, _params) do
     changeset = Arts.change_course(%Course{subjects: []})
     websites = Arts.list_websites() |> Enum.map(&{&1.name, &1.id})
-    render(conn, "new.html", websites: websites, changeset: changeset)
+    instructors = Arts.list_instructors() |> Enum.map(&{&1.name, &1.id})
+    render(conn, "new.html", websites: websites, instructors: instructors, changeset: changeset)
   end
 
   def create(conn, %{"course" => course_params}) do
+    IO.inspect "create params"
+    IO.inspect course_params
+    websites = Arts.list_websites() |> Enum.map(&{&1.name, &1.id})
+    instructors = Arts.list_instructors() |> Enum.map(&{&1.name, &1.id})
+
     case Arts.create_course(course_params) do
       {:ok, course} ->
         conn
@@ -23,7 +29,7 @@ defmodule ArtWeb.CourseController do
         |> redirect(to: Routes.course_path(conn, :show, course))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", websites: websites, instructors: instructors, changeset: changeset)
     end
   end
 
@@ -35,12 +41,17 @@ defmodule ArtWeb.CourseController do
   def edit(conn, %{"id" => id}) do
     course = Arts.get_course!(id)
     websites = Arts.list_websites() |> Enum.map(&{&1.name, &1.id})
+    instructors = Arts.list_instructors() |> Enum.map(&{&1.name, &1.id})
     changeset = Arts.change_course(course)
-    render(conn, "edit.html", course: course, websites: websites, changeset: changeset)
+    render(conn, "edit.html", course: course, websites: websites, instructors: instructors, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "course" => course_params}) do
+    IO.inspect "update params"
+    IO.inspect course_params
     course = Arts.get_course!(id)
+    websites = Arts.list_websites() |> Enum.map(&{&1.name, &1.id})
+    instructors = Arts.list_instructors() |> Enum.map(&{&1.name, &1.id})
 
     case Arts.update_course(course, course_params) do
       {:ok, course} ->
@@ -49,7 +60,7 @@ defmodule ArtWeb.CourseController do
         |> redirect(to: Routes.course_path(conn, :show, course))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", course: course, changeset: changeset)
+        render(conn, "edit.html", course: course, websites: websites, instructors: instructors, changeset: changeset)
     end
   end
 

@@ -17,7 +17,7 @@ defmodule Art.Arts.Course do
   @doc false
   def changeset(course, attrs) do
     course
-    |> cast(attrs, [:name, :start, :end, :cost, :website_id])
+    |> cast(attrs, [:name, :start, :end, :cost, :website_id, :instructor_id])
     |> validate_required([:name])
   end
 end

@@ -13,7 +13,10 @@
         <a href="/subjects">Subjects</a>
       </li>
       <li>
-        <a href="/authors">Authors</a>
+        <a href="/instructors">Instructors</a>
+      </li>
+      <li>
+        <a href="/websites">Websites</a>
       </li>
     </ul>
   </article>

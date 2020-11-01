@@ -7,6 +7,18 @@
     <%= @subject.name %>
   </li>
 
+<%= if (length @subject.courses) > 0 do %>
+  <li>
+    <strong>Courses:</strong>
+    <ul>
+    <%= for course <- @subject.courses do %>
+      <li><%= link course.name, to: Routes.course_path(@conn, :show, course.id) %></span></li>
+    <% end %>
+    </ul>
+  </li>
+<% else %>
+<strong>No Courses</strong>
+<% end  %>
 </ul>
 
 <span><%= link "Edit", to: Routes.subject_path(@conn, :edit, @subject) %></span>

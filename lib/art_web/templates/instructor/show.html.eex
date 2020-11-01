@@ -1,0 +1,13 @@
+<h1>Show Instructor</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @instructor.name %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.instructor_path(@conn, :edit, @instructor) %></span>
+<span><%= link "Back", to: Routes.instructor_path(@conn, :index) %></span>

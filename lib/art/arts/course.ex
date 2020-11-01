@@ -8,6 +8,8 @@ defmodule Art.Arts.Course do
     field :name, :string
     field :start, :date
     many_to_many :subjects, Art.Arts.Subject, join_through: "courses_subjects", on_replace: :delete
+    belongs_to :website, Art.Arts.Website
+    belongs_to :instructor, Art.Arts.Instructor
 
     timestamps()
   end
@@ -15,7 +17,7 @@ defmodule Art.Arts.Course do
   @doc false
   def changeset(course, attrs) do
     course
-    |> cast(attrs, [:name, :start, :end, :cost])
-    |> validate_required([:name, :start, :end, :cost])
+    |> cast(attrs, [:name, :start, :end, :cost, :website_id])
+    |> validate_required([:name])
   end
 end

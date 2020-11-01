@@ -1,16 +1,17 @@
-defmodule Art.Arts.Author do
+defmodule Art.Arts.Instructor do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "authors" do
+  schema "instructors" do
     field :name, :string
+    has_many :courses, Art.Arts.Course
 
     timestamps()
   end
 
   @doc false
-  def changeset(author, attrs) do
-    author
+  def changeset(instructor, attrs) do
+    instructor
     |> cast(attrs, [:name])
     |> validate_required([:name])
   end

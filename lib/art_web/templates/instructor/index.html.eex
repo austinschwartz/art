@@ -1,0 +1,26 @@
+<h1>Listing Instructors</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for instructor <- @instructors do %>
+    <tr>
+      <td><%= instructor.name %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.instructor_path(@conn, :show, instructor) %></span>
+        <span><%= link "Edit", to: Routes.instructor_path(@conn, :edit, instructor) %></span>
+        <span><%= link "Delete", to: Routes.instructor_path(@conn, :delete, instructor), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Instructor", to: Routes.instructor_path(@conn, :new) %></span>

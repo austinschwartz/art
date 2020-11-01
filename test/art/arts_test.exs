@@ -3,65 +3,6 @@ defmodule Art.ArtsTest do
 
   alias Art.Arts
 
-  describe "authors" do
-    alias Art.Arts.Author
-
-    @valid_attrs %{name: "some name"}
-    @update_attrs %{name: "some updated name"}
-    @invalid_attrs %{name: nil}
-
-    def author_fixture(attrs \\ %{}) do
-      {:ok, author} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Arts.create_author()
-
-      author
-    end
-
-    test "list_authors/0 returns all authors" do
-      author = author_fixture()
-      assert Arts.list_authors() == [author]
-    end
-
-    test "get_author!/1 returns the author with given id" do
-      author = author_fixture()
-      assert Arts.get_author!(author.id) == author
-    end
-
-    test "create_author/1 with valid data creates a author" do
-      assert {:ok, %Author{} = author} = Arts.create_author(@valid_attrs)
-      assert author.name == "some name"
-    end
-
-    test "create_author/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Arts.create_author(@invalid_attrs)
-    end
-
-    test "update_author/2 with valid data updates the author" do
-      author = author_fixture()
-      assert {:ok, %Author{} = author} = Arts.update_author(author, @update_attrs)
-      assert author.name == "some updated name"
-    end
-
-    test "update_author/2 with invalid data returns error changeset" do
-      author = author_fixture()
-      assert {:error, %Ecto.Changeset{}} = Arts.update_author(author, @invalid_attrs)
-      assert author == Arts.get_author!(author.id)
-    end
-
-    test "delete_author/1 deletes the author" do
-      author = author_fixture()
-      assert {:ok, %Author{}} = Arts.delete_author(author)
-      assert_raise Ecto.NoResultsError, fn -> Arts.get_author!(author.id) end
-    end
-
-    test "change_author/1 returns a author changeset" do
-      author = author_fixture()
-      assert %Ecto.Changeset{} = Arts.change_author(author)
-    end
-  end
-
   describe "subjects" do
     alias Art.Arts.Subject
 
@@ -183,6 +124,124 @@ defmodule Art.ArtsTest do
     test "change_course/1 returns a course changeset" do
       course = course_fixture()
       assert %Ecto.Changeset{} = Arts.change_course(course)
+    end
+  end
+
+  describe "websites" do
+    alias Art.Arts.Website
+
+    @valid_attrs %{name: "some name"}
+    @update_attrs %{name: "some updated name"}
+    @invalid_attrs %{name: nil}
+
+    def website_fixture(attrs \\ %{}) do
+      {:ok, website} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Arts.create_website()
+
+      website
+    end
+
+    test "list_websites/0 returns all websites" do
+      website = website_fixture()
+      assert Arts.list_websites() == [website]
+    end
+
+    test "get_website!/1 returns the website with given id" do
+      website = website_fixture()
+      assert Arts.get_website!(website.id) == website
+    end
+
+    test "create_website/1 with valid data creates a website" do
+      assert {:ok, %Website{} = website} = Arts.create_website(@valid_attrs)
+      assert website.name == "some name"
+    end
+
+    test "create_website/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Arts.create_website(@invalid_attrs)
+    end
+
+    test "update_website/2 with valid data updates the website" do
+      website = website_fixture()
+      assert {:ok, %Website{} = website} = Arts.update_website(website, @update_attrs)
+      assert website.name == "some updated name"
+    end
+
+    test "update_website/2 with invalid data returns error changeset" do
+      website = website_fixture()
+      assert {:error, %Ecto.Changeset{}} = Arts.update_website(website, @invalid_attrs)
+      assert website == Arts.get_website!(website.id)
+    end
+
+    test "delete_website/1 deletes the website" do
+      website = website_fixture()
+      assert {:ok, %Website{}} = Arts.delete_website(website)
+      assert_raise Ecto.NoResultsError, fn -> Arts.get_website!(website.id) end
+    end
+
+    test "change_website/1 returns a website changeset" do
+      website = website_fixture()
+      assert %Ecto.Changeset{} = Arts.change_website(website)
+    end
+  end
+
+  describe "instructors" do
+    alias Art.Arts.Instructor
+
+    @valid_attrs %{name: "some name"}
+    @update_attrs %{name: "some updated name"}
+    @invalid_attrs %{name: nil}
+
+    def instructor_fixture(attrs \\ %{}) do
+      {:ok, instructor} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Arts.create_instructor()
+
+      instructor
+    end
+
+    test "list_instructors/0 returns all instructors" do
+      instructor = instructor_fixture()
+      assert Arts.list_instructors() == [instructor]
+    end
+
+    test "get_instructor!/1 returns the instructor with given id" do
+      instructor = instructor_fixture()
+      assert Arts.get_instructor!(instructor.id) == instructor
+    end
+
+    test "create_instructor/1 with valid data creates a instructor" do
+      assert {:ok, %Instructor{} = instructor} = Arts.create_instructor(@valid_attrs)
+      assert instructor.name == "some name"
+    end
+
+    test "create_instructor/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Arts.create_instructor(@invalid_attrs)
+    end
+
+    test "update_instructor/2 with valid data updates the instructor" do
+      instructor = instructor_fixture()
+      assert {:ok, %Instructor{} = instructor} = Arts.update_instructor(instructor, @update_attrs)
+      assert instructor.name == "some updated name"
+    end
+
+    test "update_instructor/2 with invalid data returns error changeset" do
+      instructor = instructor_fixture()
+      assert {:error, %Ecto.Changeset{}} = Arts.update_instructor(instructor, @invalid_attrs)
+      assert instructor == Arts.get_instructor!(instructor.id)
+    end
+
+    test "delete_instructor/1 deletes the instructor" do
+      instructor = instructor_fixture()
+      assert {:ok, %Instructor{}} = Arts.delete_instructor(instructor)
+      assert_raise Ecto.NoResultsError, fn -> Arts.get_instructor!(instructor.id) end
+    end
+
+    test "change_instructor/1 returns a instructor changeset" do
+      instructor = instructor_fixture()
+      assert %Ecto.Changeset{} = Arts.change_instructor(instructor)
     end
   end
 end

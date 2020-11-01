@@ -13,14 +13,20 @@
 defmodule Seeder do
 alias Art.Arts.Subject
 alias Art.Repo
-def get_or_insert_subject(name) do
-  Repo.insert!(
-    %Subject{name: name},
-    on_conflict: [set: [name: name]],
-    conflict_target: :name
-  )
-end
+  def get_or_insert_subject(name) do
+    Repo.insert!(
+      %Subject{name: name},
+      on_conflict: [set: [name: name]],
+      conflict_target: :name
+    )
+  end
 end
 
-s1 = Seeder.get_or_insert_subject "Figure Drawing"
-s2 = Seeder.get_or_insert_subject "Oil Painting"
+%{
+  "cost" => 99,
+  #"start" => ~D[2011-05-20],
+  #"end" => ~D[2010-04-17],
+  "name" => "Spring Figure Drawing",
+  "subjects" => "Figure Drawing, Drawing",
+  "website" => "Watts"
+} |> Art.Arts.create_course()

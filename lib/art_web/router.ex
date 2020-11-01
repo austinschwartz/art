@@ -17,9 +17,10 @@ defmodule ArtWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    resources "/authors", AuthorController
     resources "/subjects", SubjectController
     resources "/courses", CourseController
+    resources "/websites", WebsiteController
+    resources "/instructors", InstructorController
   end
 
   # Other scopes may use custom stacks.

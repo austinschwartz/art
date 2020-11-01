@@ -1,0 +1,5 @@
+<h1>Edit Instructor</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.instructor_path(@conn, :update, @instructor)) %>
+
+<span><%= link "Back", to: Routes.instructor_path(@conn, :index) %></span>

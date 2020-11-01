@@ -1,0 +1,26 @@
+<h1>Listing Websites</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for website <- @websites do %>
+    <tr>
+      <td><%= website.name %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.website_path(@conn, :show, website) %></span>
+        <span><%= link "Edit", to: Routes.website_path(@conn, :edit, website) %></span>
+        <span><%= link "Delete", to: Routes.website_path(@conn, :delete, website), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Website", to: Routes.website_path(@conn, :new) %></span>

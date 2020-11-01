@@ -8,9 +8,18 @@
   </li>
 
   <li>
+    <strong>Website:</strong>
+    <%= if @course.website != nil do %>
+      <span class="website"><%= link @course.website.name, to: Routes.website_path(@conn, :show, @course.website.id) %></span>
+    <% else %>
+      N/A
+    <% end %>
+  </li>
+
+  <li>
     <strong>Subjects:</strong>
     <%= for subject <- @course.subjects do %>
-      <%= link subject.name, to: Routes.subject_path(@conn, :show, subject.id) %></span>
+      <span class="subject"><%= link subject.name, to: Routes.subject_path(@conn, :show, subject.id) %></span>
     <% end %>
   </li>
 

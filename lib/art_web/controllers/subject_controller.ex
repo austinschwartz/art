@@ -27,7 +27,7 @@ defmodule ArtWeb.SubjectController do
   end
 
   def show(conn, %{"id" => id}) do
-    subject = Arts.get_subject!(id)
+    subject = Arts.get_subject_with_courses!(id)
     render(conn, "show.html", subject: subject)
   end
 

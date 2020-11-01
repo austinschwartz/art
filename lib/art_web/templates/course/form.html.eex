@@ -9,17 +9,37 @@
   <%= text_input f, :name %>
   <%= error_tag f, :name %>
 
+  <%= label f, :website_id %>
+  <%= select f, :website_id, @websites, prompt: "N/A" %>
+  <%= error_tag f, :website_id %>
+
+  <!--<%= label f, :website_id %>
+  <%= select f, :website_id, @websites, prompt: "N/A", class: "form-control" %>
+  <%= error_tag f, :website_id %>-->
+
+  <!--<%= label f, :website %>
+  <%= website_input f, :website %>
+  <%= error_tag f, :website %>-->
+
   <%= label f, :subjects %>
   <%= subject_input f, :subjects %>
   <%= error_tag f, :subjects %>
   <small class="help-text">subjects separated by commas</small>
 
   <%= label f, :start %>
-  <%= date_select f, :start %>
+  <%= date_select f, :start,
+        year: [prompt: ""],
+        month: [prompt: ""],
+        day: [prompt: ""],
+        class: "form-control"  %>
   <%= error_tag f, :start %>
 
   <%= label f, :end %>
-  <%= date_select f, :end %>
+  <%= date_select f, :end,
+        year: [prompt: ""],
+        month: [prompt: ""],
+        day: [prompt: ""],
+        class: "form-control" %>
   <%= error_tag f, :end %>
 
   <%= label f, :cost %>

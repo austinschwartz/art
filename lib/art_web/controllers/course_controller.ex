@@ -11,7 +11,8 @@ defmodule ArtWeb.CourseController do
 
   def new(conn, _params) do
     changeset = Arts.change_course(%Course{subjects: []})
-    render(conn, "new.html", changeset: changeset)
+    websites = Arts.list_websites() |> Enum.map(&{&1.name, &1.id})
+    render(conn, "new.html", websites: websites, changeset: changeset)
   end
 
   def create(conn, %{"course" => course_params}) do
@@ -33,8 +34,9 @@ defmodule ArtWeb.CourseController do
 
   def edit(conn, %{"id" => id}) do
     course = Arts.get_course!(id)
+    websites = Arts.list_websites() |> Enum.map(&{&1.name, &1.id})
     changeset = Arts.change_course(course)
-    render(conn, "edit.html", course: course, changeset: changeset)
+    render(conn, "edit.html", course: course, websites: websites, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "course" => course_params}) do

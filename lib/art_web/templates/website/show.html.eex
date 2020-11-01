@@ -1,0 +1,13 @@
+<h1>Show Website</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @website.name %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.website_path(@conn, :edit, @website) %></span>
+<span><%= link "Back", to: Routes.website_path(@conn, :index) %></span>

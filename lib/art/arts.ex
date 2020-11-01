@@ -7,102 +7,6 @@ defmodule Art.Arts do
   alias Art.Repo
   alias Ecto.Multi
 
-  alias Art.Arts.Author
-
-  @doc """
-  Returns the list of authors.
-
-  ## Examples
-
-      iex> list_authors()
-      [%Author{}, ...]
-
-  """
-  def list_authors do
-    Repo.all(Author)
-  end
-
-  @doc """
-  Gets a single author.
-
-  Raises `Ecto.NoResultsError` if the Author does not exist.
-
-  ## Examples
-
-      iex> get_author!(123)
-      %Author{}
-
-      iex> get_author!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_author!(id), do: Repo.get!(Author, id)
-
-  @doc """
-  Creates a author.
-
-  ## Examples
-
-      iex> create_author(%{field: value})
-      {:ok, %Author{}}
-
-      iex> create_author(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_author(attrs \\ %{}) do
-    %Author{}
-    |> Author.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a author.
-
-  ## Examples
-
-      iex> update_author(author, %{field: new_value})
-      {:ok, %Author{}}
-
-      iex> update_author(author, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_author(%Author{} = author, attrs) do
-    author
-    |> Author.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a author.
-
-  ## Examples
-
-      iex> delete_author(author)
-      {:ok, %Author{}}
-
-      iex> delete_author(author)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_author(%Author{} = author) do
-    Repo.delete(author)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking author changes.
-
-  ## Examples
-
-      iex> change_author(author)
-      %Ecto.Changeset{data: %Author{}}
-
-  """
-  def change_author(%Author{} = author, attrs \\ %{}) do
-    Author.changeset(author, attrs)
-  end
-
   alias Art.Arts.Subject
 
   @doc """
@@ -219,6 +123,7 @@ defmodule Art.Arts do
   def list_courses do
     Course
       |> Ecto.Query.preload(:subjects)
+      |> Ecto.Query.preload(:website)
       |> Repo.all
     #Repo.all(Course)
   end
@@ -240,6 +145,7 @@ defmodule Art.Arts do
   def get_course!(id) do
     Course
       |> Ecto.Query.preload(:subjects)
+      |> Ecto.Query.preload(:website)
       |> Repo.get!(id)
     #Repo.get!(Course, id)
   end
@@ -264,6 +170,7 @@ defmodule Art.Arts do
       # is an error in course creation
       |> ensure_subjects(attrs)
       |> Multi.insert(:course, fn %{subjects: subjects} ->
+
         # This chunk of code remains the same, the only difference is we let
         # Ecto.Multi handle insertion of the course
         %Course{}
@@ -301,7 +208,7 @@ defmodule Art.Arts do
   end
 
   # We have created an ensure subjects to use the multi struct passed along and the
-  # repo associated with it to allow rolling back tag inserts
+  # repo associated with it to allow rolling back subject inserts
   defp ensure_subjects(multi, attrs) do
     subjects = parse_subjects(attrs["subjects"])
 
@@ -340,5 +247,197 @@ defmodule Art.Arts do
   """
   def change_course(%Course{} = course, attrs \\ %{}) do
     Course.changeset(course, attrs)
+  end
+
+  alias Art.Arts.Website
+
+  @doc """
+  Returns the list of websites.
+
+  ## Examples
+
+      iex> list_websites()
+      [%Website{}, ...]
+
+  """
+  def list_websites do
+    Repo.all(Website)
+  end
+
+  @doc """
+  Gets a single website.
+
+  Raises `Ecto.NoResultsError` if the Website does not exist.
+
+  ## Examples
+
+      iex> get_website!(123)
+      %Website{}
+
+      iex> get_website!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_website!(id), do: Repo.get!(Website, id)
+
+  @doc """
+  Creates a website.
+
+  ## Examples
+
+      iex> create_website(%{field: value})
+      {:ok, %Website{}}
+
+      iex> create_website(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_website(attrs \\ %{}) do
+    %Website{}
+    |> Website.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a website.
+
+  ## Examples
+
+      iex> update_website(website, %{field: new_value})
+      {:ok, %Website{}}
+
+      iex> update_website(website, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_website(%Website{} = website, attrs) do
+    website
+    |> Website.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a website.
+
+  ## Examples
+
+      iex> delete_website(website)
+      {:ok, %Website{}}
+
+      iex> delete_website(website)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_website(%Website{} = website) do
+    Repo.delete(website)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking website changes.
+
+  ## Examples
+
+      iex> change_website(website)
+      %Ecto.Changeset{data: %Website{}}
+
+  """
+  def change_website(%Website{} = website, attrs \\ %{}) do
+    Website.changeset(website, attrs)
+  end
+
+  alias Art.Arts.Instructor
+
+  @doc """
+  Returns the list of instructors.
+
+  ## Examples
+
+      iex> list_instructors()
+      [%Instructor{}, ...]
+
+  """
+  def list_instructors do
+    Repo.all(Instructor)
+  end
+
+  @doc """
+  Gets a single instructor.
+
+  Raises `Ecto.NoResultsError` if the Instructor does not exist.
+
+  ## Examples
+
+      iex> get_instructor!(123)
+      %Instructor{}
+
+      iex> get_instructor!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_instructor!(id), do: Repo.get!(Instructor, id)
+
+  @doc """
+  Creates a instructor.
+
+  ## Examples
+
+      iex> create_instructor(%{field: value})
+      {:ok, %Instructor{}}
+
+      iex> create_instructor(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_instructor(attrs \\ %{}) do
+    %Instructor{}
+    |> Instructor.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a instructor.
+
+  ## Examples
+
+      iex> update_instructor(instructor, %{field: new_value})
+      {:ok, %Instructor{}}
+
+      iex> update_instructor(instructor, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_instructor(%Instructor{} = instructor, attrs) do
+    instructor
+    |> Instructor.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a instructor.
+
+  ## Examples
+
+      iex> delete_instructor(instructor)
+      {:ok, %Instructor{}}
+
+      iex> delete_instructor(instructor)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_instructor(%Instructor{} = instructor) do
+    Repo.delete(instructor)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking instructor changes.
+
+  ## Examples
+
+      iex> change_instructor(instructor)
+      %Ecto.Changeset{data: %Instructor{}}
+
+  """
+  def change_instructor(%Instructor{} = instructor, attrs \\ %{}) do
+    Instructor.changeset(instructor, attrs)
   end
 end
